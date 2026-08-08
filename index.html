@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Deathly Hallows Protocol — Server Survival Guide V2</title>
+    <meta name="description" content="Official Server Survival Protocol V2 for Horcrux & Hallows. Rules, mechanics, Hallows abilities, tracking compass simulator, and server commands.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Inter:wght@300;400;500;600;700&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Dynamic Particle Background -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Top Navigation Bar -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="#hero" class="brand">
+                <img src="logo.png" alt="Horcrux SMP Logo" class="brand-logo">
+                <span class="brand-text">HORCRUX <span class="accent-amp">&</span> HALLOWS</span>
+            </a>
+            
+            <nav class="nav-links" id="nav-links">
+                <a href="#horcrux-system" class="nav-item">Horcrux System</a>
+                <a href="#three-hallows" class="nav-item">The Three Hallows</a>
+                <a href="#spawn-compass" class="nav-item">Spawn & Compass</a>
+                <a href="#commands" class="nav-item">Commands</a>
+                <a href="#simulators" class="nav-item highlight-btn">Interactive Lab</a>
+            </nav>
+
+            <button class="mobile-menu-toggle" id="mobile-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="hero-section">
+            <div class="hero-content">
+                <div class="hero-badge">SERVER SURVIVAL PROTOCOL — V2</div>
+                <h1 class="hero-title">The <span class="purple-gradient-text">Deathly Hallows</span> Protocol</h1>
+                <p class="hero-subtitle">
+                    Everything the old Horcrux page told you still applies. This adds three legendary items to the server — rarer, stronger, and worth fighting over. Tap a symbol below to jump to it.
+                </p>
+
+                <!-- Interactive Deathly Hallows SVG Symbol -->
+                <div class="hallows-symbol-container">
+                    <svg class="hallows-svg" viewBox="0 0 400 360" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <filter id="glow-cloak" x="-20%" y="-20%" width="140%" height="140%">
+                                <feGaussianBlur stdDeviation="6" result="blur" />
+                                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                            </filter>
+                            <filter id="glow-stone" x="-20%" y="-20%" width="140%" height="140%">
+                                <feGaussianBlur stdDeviation="6" result="blur" />
+                                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                            </filter>
+                            <filter id="glow-sword" x="-20%" y="-20%" width="140%" height="140%">
+                                <feGaussianBlur stdDeviation="6" result="blur" />
+                                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                            </filter>
+                        </defs>
+                        <!-- Triangle: Invisibility Cloak -->
+                        <polygon points="200,20 30,340 370,340" class="hallow-part symbol-cloak" id="sym-cloak" />
+                        <!-- Circle: Resurrection Stone -->
+                        <circle cx="200" cy="233" r="105" class="hallow-part symbol-stone" id="sym-stone" />
+                        <!-- Line: Elder Sword -->
+                        <line x1="200" y1="20" x2="200" y2="340" class="hallow-part symbol-sword" id="sym-sword" />
+                    </svg>
+
+                    <div class="symbol-labels">
+                        <button class="symbol-btn btn-cloak" data-target="cloak">
+                            <span class="dot green-dot"></span> Cloak
+                        </button>
+                        <button class="symbol-btn btn-stone" data-target="stone">
+                            <span class="dot red-dot"></span> Stone
+                        </button>
+                        <button class="symbol-btn btn-sword" data-target="sword">
+                            <span class="dot gold-dot"></span> Sword
+                        </button>
+                    </div>
+                </div>
+
+                <div class="scroll-indicator">
+                    <span>Explore Protocol Rules</span>
+                    <div class="chevron"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PART ONE: The Horcrux System -->
+        <section id="horcrux-system" class="content-section">
+            <div class="section-header">
+                <span class="part-tag">PART ONE</span>
+                <h2>The Horcrux System</h2>
+                <div class="item-title-bar">
+                    <img src="horcruxe.png" alt="Horcrux Item Title Gradient" class="minecraft-tooltip-img">
+                </div>
+                <p class="section-lead">
+                    Your safety net against death. Kill a seasoned player, earn a Horcrux, place it, and dying costs you nothing while it stands.
+                </p>
+            </div>
+
+            <div class="grid-2col">
+                <!-- Horcrux Gameplay Visual -->
+                <div class="card media-card">
+                    <div class="card-header">
+                        <h3>In-Game Execution</h3>
+                        <span class="badge purple-badge">Creation Preview</span>
+                    </div>
+                    <div class="media-wrapper">
+                        <img src="creation.png" alt="Minecraft Horcrux Creation Gameplay" class="card-img">
+                    </div>
+                    <div class="card-footer">
+                        <img src="created.png" alt="Horcrux Inventory Hotbar Item" class="inline-hotbar-img">
+                    </div>
+                </div>
+
+                <!-- Earning & Placing Rules -->
+                <div class="card">
+                    <h3>Earning & Placing Rules</h3>
+                    
+                    <div class="rule-box">
+                        <div class="rule-header">
+                            <span class="rule-tag">QUALIFYING KILL</span>
+                            <h4>30+ Minutes Playtime Required</h4>
+                        </div>
+                        <p>Kill a player with 30+ minutes of playtime to receive 1 Horcrux item.</p>
+                    </div>
+
+                    <div class="rule-box">
+                        <div class="rule-header warning-tag">
+                            <span class="rule-tag">KILL TOO EARLY</span>
+                            <h4>Under 30 Minutes Playtime</h4>
+                        </div>
+                        <p>Kills on players under 30 minutes yield no Horcrux charge.</p>
+                    </div>
+
+                    <div class="rule-box">
+                        <div class="rule-header">
+                            <span class="rule-tag">CHARGE CAP & SINGLE HOLDER LOCK</span>
+                            <h4>3 Charges Max (Global Lock)</h4>
+                        </div>
+                        <p>Maximum 3 charges per player. Once a player creates a Horcrux, <strong>no one else can create one</strong> until all existing Horcruxes are destroyed.</p>
+                    </div>
+
+                    <div class="rule-box">
+                        <div class="rule-header">
+                            <span class="rule-tag">PLACEMENT RULES</span>
+                            <h4>Manual vs Auto-Place (30m)</h4>
+                        </div>
+                        <p>Place anytime. Carrying for 30 minutes automatically drops it at your feet. <em>Only a placed Horcrux counts as active protection!</em></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Death Penalty Comparison Card -->
+            <div class="card full-width-card margin-top">
+                <h3>What Happens When You Die</h3>
+                <div class="table-responsive">
+                    <table class="protocol-table">
+                        <thead>
+                            <tr>
+                                <th>CONDITION</th>
+                                <th>RESULT & CONSEQUENCES</th>
+                                <th>PROTECTION STATUS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="status-pass">
+                                <td><span class="status-badge pass">1+ Placed Horcrux</span></td>
+                                <td>Respawn normally, nothing lost, charge count untouched. A 7-second cosmetic dark/smoke visual effect plays.</td>
+                                <td><span class="pill green-pill">SAFE (Protected)</span></td>
+                            </tr>
+                            <tr class="status-fail">
+                                <td><span class="status-badge fail">0 Placed Horcruxes</span></td>
+                                <td><strong>3-day ban.</strong> On return: inventory, armor, ender chest, and XP are completely wiped.</td>
+                                <td><span class="pill red-pill">DEADLY (Unprotected)</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="info-alert">
+                    <span class="alert-icon">⚠️</span>
+                    <div>
+                        <strong>Protecting & Losing It:</strong> A placed Horcrux is also a target. Anyone who breaks the block — including you — destroys that charge permanently with no refund.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PART TWO: The Three Hallows -->
+        <section id="three-hallows" class="content-section">
+            <div class="section-header">
+                <span class="part-tag">PART TWO</span>
+                <h2>The Three Hallows</h2>
+                <p class="section-lead">Three legendary items, each with one job and one weakness. Tap a card to test its ability simulator.</p>
+                <div class="restriction-banner">
+                    <span class="banner-icon">⚔️</span>
+                    <span><strong>EQUIPMENT LIMIT:</strong> Each player may hold only 1 Hallow at a time — no stacking Sword + Cloak + Stone on one player.</span>
+                </div>
+            </div>
+
+            <div class="hallows-grid">
+                <!-- Elder Sword Card -->
+                <div class="card hallow-card gold-hallow-card" id="card-sword">
+                    <div class="hallow-card-header">
+                        <img src="eldersword.png" alt="Elder Sword Title" class="hallow-title-img">
+                        <span class="hallow-badge gold-badge">Offensive Artifact</span>
+                    </div>
+                    <p class="hallow-tagline">"Unbeaten in a straight fight — as long as you're patient between swings."</p>
+
+                    <div class="stat-pills">
+                        <span class="stat-pill gold-pill">1-hit kill on any target</span>
+                        <span class="stat-pill dark-pill">1 min cooldown between kills</span>
+                    </div>
+
+                    <p class="hallow-description">
+                        The Elder Sword ends a fight the instant it connects — one hit is lethal to any player it strikes, armor included. After a kill, the blade needs 1 minute before it can do that again. Swing it outside a kill and it behaves like a normal weapon.
+                    </p>
+
+                    <ul class="hallow-specs">
+                        <li><strong>Damage:</strong> Instant kill on hit (Ignores Armor)</li>
+                        <li><strong>Cooldown:</strong> 1 minute after each one-hit kill</li>
+                        <li><strong>Best Used:</strong> To open a fight, not to spam through a group</li>
+                    </ul>
+
+                    <div class="interactive-hallow-box">
+                        <button class="action-btn gold-btn" id="btn-test-sword">
+                            🗡️ Strike Target (Trigger Cooldown)
+                        </button>
+                        <div class="cooldown-display" id="sword-cooldown-display">
+                            <span class="cd-status">Status: Ready to Swing</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Invisibility Cloak Card -->
+                <div class="card hallow-card green-hallow-card" id="card-cloak">
+                    <div class="hallow-card-header">
+                        <img src="invisibilitycloak.png" alt="Invisibility Cloak Title" class="hallow-title-img">
+                        <span class="hallow-badge green-badge">Stealth Artifact</span>
+                    </div>
+                    <p class="hallow-tagline">"Worn, not wielded. Vanish for as long as an hour at a time."</p>
+
+                    <div class="stat-pills">
+                        <span class="stat-pill green-pill">No armor required to wear</span>
+                        <span class="stat-pill dark-pill">1 hour full invisibility</span>
+                        <span class="stat-pill dark-pill">1 min cooldown</span>
+                    </div>
+
+                    <p class="hallow-description">
+                        Equip the cloak in your chestplate slot and you go fully invisible — gone from view entirely — for up to one hour per activation. It only equips if you have no other armor piece worn — helmet, leggings, and boots slots must be empty.
+                    </p>
+
+                    <ul class="hallow-specs">
+                        <li><strong>Activation:</strong> Chest armor slot (Helmet, Leggings, Boots empty)</li>
+                        <li><strong>Duration:</strong> Up to 1 hour full invisibility per use</li>
+                        <li><strong>Cooldown:</strong> 1 minute rest after taking it off</li>
+                    </ul>
+
+                    <div class="interactive-hallow-box">
+                        <h4>Armor Slot Eligibility Checker</h4>
+                        <div class="armor-slot-toggles">
+                            <label class="slot-toggle"><input type="checkbox" id="slot-helmet"> Helmet</label>
+                            <label class="slot-toggle active-slot"><input type="checkbox" id="slot-chest" checked> Chestplate (Cloak)</label>
+                            <label class="slot-toggle"><input type="checkbox" id="slot-legs"> Leggings</label>
+                            <label class="slot-toggle"><input type="checkbox" id="slot-boots"> Boots</label>
+                        </div>
+                        <div class="cloak-status-box green-status" id="cloak-status">
+                            ✨ Invisibility Active! (Chest equipped, all other slots empty)
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resurrection Stone Card -->
+                <div class="card hallow-card red-hallow-card" id="card-stone">
+                    <div class="hallow-card-header">
+                        <img src="resurrectionstone.png" alt="Resurrection Stone Title" class="hallow-title-img">
+                        <span class="hallow-badge red-badge">Defensive Artifact</span>
+                    </div>
+                    <p class="hallow-tagline">"A totem you keep — as long as you're holding it when it matters."</p>
+
+                    <div class="stat-pills">
+                        <span class="stat-pill red-pill">Works like a totem</span>
+                        <span class="stat-pill dark-pill">Reusable, not one-time</span>
+                        <span class="stat-pill dark-pill">Must be in hand</span>
+                        <span class="stat-pill dark-pill">20s cooldown</span>
+                    </div>
+
+                    <p class="hallow-description">
+                        Saves you from a killing blow the same way a totem of undying does — but it isn't consumed. It only triggers if it's the item in your hand at the moment of death. On trigger, it broadcasts a server chat message and recharges for 20 seconds.
+                    </p>
+
+                    <ul class="hallow-specs">
+                        <li><strong>Trigger:</strong> Must be held in main hand when blow lands</li>
+                        <li><strong>Uses:</strong> Reusable — remains in inventory</li>
+                        <li><strong>Broadcast:</strong> Sends announcement to global server chat</li>
+                        <li><strong>Cooldown:</strong> 20 seconds after each save</li>
+                    </ul>
+
+                    <div class="interactive-hallow-box">
+                        <div class="hand-holding-toggle">
+                            <label><input type="checkbox" id="stone-in-hand" checked> Main Hand Holding Stone</label>
+                        </div>
+                        <button class="action-btn red-btn" id="btn-test-stone">
+                            💎 Simulate Fatal Damage Blow
+                        </button>
+                        <div class="server-chat-preview" id="stone-chat-output">
+                            <span class="chat-muted">[Server] Waiting for fatal damage trigger...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PART THREE: Spawn & Compass Tracking -->
+        <section id="spawn-compass" class="content-section">
+            <div class="section-header">
+                <span class="part-tag">PART THREE</span>
+                <h2>Spawn & Compass Tracking</h2>
+                <p class="section-lead">The Hallows don't sit in a shop — they drop into the world at random, and the whole server hunts for them together.</p>
+            </div>
+
+            <div class="grid-2col">
+                <div class="card">
+                    <h3>Starting a Run & Reveal Order</h3>
+                    <p>An operator runs <code>/dhs</code>. All three Hallows spawn at random locations on the map, and every player immediately receives a tracking compass.</p>
+                    
+                    <div class="timeline-container">
+                        <div class="timeline-item">
+                            <div class="timeline-badge week1">WEEK 1</div>
+                            <div class="timeline-content">
+                                <h4>Invisibility Cloak Revealed</h4>
+                                <p>Compass points toward the Cloak location first.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-badge week2">WEEK 2</div>
+                            <div class="timeline-content">
+                                <h4>Resurrection Stone Revealed</h4>
+                                <p>Compass points toward the Resurrection Stone location.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-badge week3">WEEK 3</div>
+                            <div class="timeline-content">
+                                <h4>Elder Sword Revealed</h4>
+                                <p>Compass reveals the final location of the Elder Sword.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-alert margin-top-sm">
+                        <span class="alert-icon">🔒</span>
+                        <div>
+                            <strong>Anti-Stalking Protection:</strong> Once an item is picked up by a player, its compass tracking goes permanently dead — it never repoints to the holder.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interactive Compass Simulator UI -->
+                <div class="card compass-card">
+                    <h3>Interactive Compass Radar Simulator</h3>
+                    <p class="card-subtitle">Right-click to scan nearby Hallows artifact signals.</p>
+
+                    <div class="compass-radar-wrapper">
+                        <div class="compass-dial" id="compass-dial">
+                            <div class="radar-sweep" id="radar-sweep"></div>
+                            <div class="compass-needle" id="compass-needle"></div>
+                            <div class="compass-center-dot"></div>
+                            <div class="artifact-ping" id="artifact-ping"></div>
+                        </div>
+
+                        <div class="compass-stats">
+                            <div class="stat-box">
+                                <span class="stat-label">Active Window</span>
+                                <span class="stat-val" id="active-window-val">10 Seconds</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-label">Cooldown</span>
+                                <span class="stat-val" id="cooldown-val">30 Seconds</span>
+                            </div>
+                        </div>
+
+                        <button class="action-btn purple-btn full-btn" id="btn-use-compass">
+                            🧭 Right-Click Tracking Compass
+                        </button>
+
+                        <div class="compass-status-text" id="compass-status-text">
+                            Idle — Ready to Use
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- INTERACTIVE LAB: Horcrux Death & Risk Calculator -->
+        <section id="simulators" class="content-section">
+            <div class="section-header">
+                <span class="part-tag">INTERACTIVE SIMULATOR</span>
+                <h2>Horcrux Survival & Risk Calculator</h2>
+                <p class="section-lead">Simulate player playtime, carried horcruxes, placed horcruxes, and death outcomes.</p>
+            </div>
+
+            <div class="card full-width-card calculator-card">
+                <div class="calc-grid">
+                    <div class="calc-inputs">
+                        <h3>Player Parameters</h3>
+
+                        <div class="form-group">
+                            <label for="calc-playtime">Player Playtime (Minutes):</label>
+                            <input type="number" id="calc-playtime" value="45" min="0" max="1000">
+                            <span class="input-hint">30+ minutes required for qualifying kill</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="calc-carried">Carried Horcrux Items (Inventory):</label>
+                            <input type="number" id="calc-carried" value="1" min="0" max="3">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="calc-carry-time">Carrying Duration (Minutes):</label>
+                            <input type="number" id="calc-carry-time" value="15" min="0" max="60">
+                            <span class="input-hint">30 mins = Auto-places under feet</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="calc-placed">Placed Horcrux Blocks (Active):</label>
+                            <input type="number" id="calc-placed" value="1" min="0" max="3">
+                            <span class="input-hint">Must be placed in world for protection</span>
+                        </div>
+                    </div>
+
+                    <div class="calc-outputs">
+                        <h3>Calculated Status & Risk Assessment</h3>
+
+                        <div class="outcome-box" id="calc-outcome-box">
+                            <div class="outcome-status-title" id="outcome-title">SAFE & PROTECTED</div>
+                            <p id="outcome-desc">You have 1 placed Horcrux block active in the world. Death will not trigger ban or item wipe.</p>
+                            
+                            <div class="outcome-metrics">
+                                <div class="metric">
+                                    <span>Auto-Place Warning:</span>
+                                    <strong id="auto-place-timer">15 mins remaining</strong>
+                                </div>
+                                <div class="metric">
+                                    <span>Qualifying Kill Eligible:</span>
+                                    <strong id="qualifying-status" class="text-green">YES (Playtime > 30m)</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="action-btn red-btn full-btn" id="btn-simulate-death">
+                            ⚡ Simulate Player Death Event
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PART FOUR: Server Commands -->
+        <section id="commands" class="content-section">
+            <div class="section-header">
+                <span class="part-tag">PART FOUR</span>
+                <h2>Server Commands</h2>
+                <p class="section-lead">Quick reference commands for players and server operators.</p>
+            </div>
+
+            <div class="card full-width-card">
+                <div class="table-responsive">
+                    <table class="protocol-table commands-table">
+                        <thead>
+                            <tr>
+                                <th>COMMAND</th>
+                                <th>PERMISSION</th>
+                                <th>WHAT IT DOES</th>
+                                <th>ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>/horcrux</code></td>
+                                <td><span class="badge player-badge">Player</span></td>
+                                <td>Check your own placed/carried Horcrux counts.</td>
+                                <td><button class="copy-btn" data-cmd="/horcrux">Copy</button></td>
+                            </tr>
+                            <tr>
+                                <td><code>/horcrux &lt;player&gt;</code></td>
+                                <td><span class="badge player-badge">Player</span></td>
+                                <td>Check another player's Horcrux counts.</td>
+                                <td><button class="copy-btn" data-cmd="/horcrux <player>">Copy</button></td>
+                            </tr>
+                            <tr>
+                                <td><code>/dhs</code></td>
+                                <td><span class="badge op-badge">Operator</span></td>
+                                <td>Operator command. Spawns the three Hallows and hands every player a tracking compass.</td>
+                                <td><button class="copy-btn" data-cmd="/dhs">Copy</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <img src="logo.png" alt="Horcrux SMP Footer Logo" class="footer-logo">
+                <p>HORCRUX & DEATHLY HALLOWS PROTOCOL · SERVER RULES REFERENCE</p>
+            </div>
+            <p class="footer-disclaimer">
+                Numbers here follow current server config and may be adjusted by admins. Ask staff if anything here looks out of date.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Death Modal (Visual 7s Smoke or Ban Wipe Notification) -->
+    <div class="modal-overlay" id="death-modal">
+        <div class="modal-content" id="modal-content-box">
+            <button class="modal-close" id="modal-close">&times;</button>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Popup -->
+    <div class="toast" id="toast-msg">Command copied!</div>
+
+    <script src="app.js"></script>
+</body>
+</html>
